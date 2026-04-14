@@ -1,10 +1,12 @@
 import express from "express";
-import type { Express } from "express";
+import type { ErrorRequestHandler, Express } from "express";
 import { authRouter } from "./auth/routes";
 import cookieParser from "cookie-parser";
 import { bookingRouter } from "./booking/booking.route";
 import { legacySeatRouter } from "./legacy/legacy.route";
 import path from "node:path";
+import { db } from "../db";
+import { sql } from "drizzle-orm";
 
 export function createExpressApp(): Express {
   const app = express();
@@ -33,6 +35,28 @@ export function createExpressApp(): Express {
     res.sendFile(path.join(process.cwd(), "src/app/frontend/booking.html"));
   });
 
+  app.get("/health", (_req, res) => {
+    return res.status(200).json({
+      status: "ok",
+      service: "booknest-api",
+    });
+  });
+
+  app.get("/health/db", async (_req, res) => {
+    try {
+      await db.execute(sql`select 1`);
+      return res.status(200).json({
+        status: "ok",
+        database: "reachable",
+      });
+    } catch {
+      return res.status(503).json({
+        status: "error",
+        database: "unreachable",
+      });
+    }
+  });
+
   // routers
   app.get("/", (_req, res) => {
     return res.redirect("/ui/signup.html");
@@ -41,5 +65,16 @@ export function createExpressApp(): Express {
   app.use("/auth", authRouter);
   app.use("/bookings", bookingRouter);
   app.use("/", legacySeatRouter);
+
+  const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+    console.error("Unhandled app error:", err);
+    if (res.headersSent) return;
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  };
+
+  app.use(errorHandler);
+
   return app;
 }

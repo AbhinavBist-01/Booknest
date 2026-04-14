@@ -4,7 +4,37 @@ import pg from "pg";
 import { authMiddleware } from "../auth/middlewares/middleware";
 
 const legacySeatRouter = express.Router() as Router;
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+function normalizeConnectionString(connectionString?: string): string {
+  if (!connectionString) return "";
+
+  if (
+    connectionString.includes("localhost") ||
+    connectionString.includes("127.0.0.1")
+  ) {
+    return connectionString;
+  }
+
+  if (/sslmode=/i.test(connectionString)) {
+    return connectionString;
+  }
+
+  return connectionString.includes("?")
+    ? `${connectionString}&sslmode=require`
+    : `${connectionString}?sslmode=require`;
+}
+
+const rawConnectionString =
+  process.env.DATABASE_URL || process.env.POSTGRES_URL;
+const connectionString = normalizeConnectionString(rawConnectionString);
+
+if (!connectionString) {
+  throw new Error(
+    "Missing database URL. Set DATABASE_URL (or POSTGRES_URL on Vercel).",
+  );
+}
+
+const pool = new pg.Pool({ connectionString });
 
 legacySeatRouter.get("/seats", async (_req, res) => {
   const result = await pool.query("select * from seats");
