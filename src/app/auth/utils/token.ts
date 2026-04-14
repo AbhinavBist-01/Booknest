@@ -13,16 +13,24 @@ function requireSecret(secret: string | undefined, name: string): string {
 }
 
 export function createUserToken(payload: UserTokenPayload) {
-  const token = JWT.sign(payload, requireSecret(process.env.JWT_ACCESS_SECRET, "JWT_ACCESS_SECRET"), {
-    expiresIn: "15m",
-  });
+  const token = JWT.sign(
+    payload,
+    requireSecret(process.env.JWT_ACCESS_SECRET, "JWT_ACCESS_SECRET"),
+    {
+      expiresIn: "15m",
+    },
+  );
   return token;
 }
 
 export function createRefreshToken(payload: UserTokenPayload) {
-  const refreshToken = JWT.sign(payload, requireSecret(process.env.JWT_REFRESH_SECRET, "JWT_REFRESH_SECRET"), {
-    expiresIn: "7d",
-  });
+  const refreshToken = JWT.sign(
+    payload,
+    requireSecret(process.env.JWT_REFRESH_SECRET, "JWT_REFRESH_SECRET"),
+    {
+      expiresIn: "7d",
+    },
+  );
   return refreshToken;
 }
 export function verifyUserToken(token: string) {

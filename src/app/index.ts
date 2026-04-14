@@ -62,7 +62,9 @@ export function createExpressApp(): Express {
       status: "ok",
       jwt_access_secret: Boolean(process.env.JWT_ACCESS_SECRET),
       jwt_refresh_secret: Boolean(process.env.JWT_REFRESH_SECRET),
-      database_url: Boolean(process.env.DATABASE_URL || process.env.POSTGRES_URL),
+      database_url: Boolean(
+        process.env.DATABASE_URL || process.env.POSTGRES_URL,
+      ),
     });
   });
 
