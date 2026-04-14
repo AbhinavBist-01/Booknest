@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booknest — Login</title>
+  <meta name="description" content="Sign in to your Booknest account to book movie seats." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<nav class="nav">
+  <a href="/ui/signup.html" class="brand">
+    <div class="brand-icon">🎬</div>
+    Booknest
+  </a>
+</nav>
+
+<div class="page auth-page">
+  <div class="auth-card">
+    <div class="auth-card-header">
+      <div class="logo-big">🎬</div>
+      <h1>Welcome back</h1>
+      <p>Sign in to book your seats</p>
+    </div>
+
+    <div class="tab-row">
+      <button class="tab active" id="tabSignin">Sign In</button>
+      <button class="tab" id="tabSignup" onclick="location.href='/ui/signup.html'">Sign Up</button>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <button class="btn btn-gold btn-full mt-8" type="submit" id="btnLogin">
+        Sign In
+      </button>
+      <p class="text-sm text-muted text-center mt-16">
+        Don't have an account?
+        <a href="/ui/signup.html" style="color:var(--gold);text-decoration:none;">Sign up →</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<div class="toast-area" id="toastArea"></div>
+<script src="/ui/login.js"></script>
+</body>
+</html>

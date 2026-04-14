@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booknest — Pick Your Seats</title>
+  <meta name="description" content="Choose your seats and book movie tickets on Booknest." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="/ui/signup.html" class="brand">
+    <div class="brand-icon">🎬</div>
+    Booknest
+  </a>
+  <div class="nav-actions">
+    <div class="user-chip" id="userChip">
+      <div class="avatar" id="userAvatar">?</div>
+      <span id="userName">Loading…</span>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="btnLogout">Sign Out</button>
+  </div>
+</nav>
+
+<div class="page">
+  <main class="booking-page">
+
+    <!-- Movie Hero -->
+    <div class="movie-hero" id="movieHero">
+      <div class="movie-poster" id="moviePoster">🎥</div>
+      <div class="movie-info">
+        <div class="section-title">Now Showing</div>
+        <h2 id="movieTitle">Interstellar</h2>
+        <div class="movie-meta" id="movieMeta">
+          <span class="badge">2h 49m</span>
+          <span class="badge">Sci-Fi</span>
+          <span class="badge">PG-13</span>
+          <span class="badge badge-gold">⭐ 8.7</span>
+        </div>
+        <div class="text-sm text-muted" id="showInfo">
+          🎭 <strong id="showVenue">IMAX Hall 1</strong> &nbsp;·&nbsp;
+          🕖 <strong id="showTime">7:30 PM, Today</strong> &nbsp;·&nbsp;
+          💺 <span id="seatsLeft" style="color:var(--gold)">— seats left</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen -->
+    <div class="screen-wrap">
+      <div class="screen"></div>
+      <div class="screen-label">All eyes this way — SCREEN</div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot available"></div>
+        Available
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot booked"></div>
+        Booked
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot selected"></div>
+        Your Pick
+      </div>
+    </div>
+
+    <!-- PREMIUM seats -->
+    <div class="seat-section">
+      <div class="seat-section-title">Premium — ₹500</div>
+      <div class="seat-grid" id="gridPremium"></div>
+    </div>
+
+    <!-- STANDARD seats -->
+    <div class="seat-section">
+      <div class="seat-section-title">Standard — ₹300</div>
+      <div class="seat-grid" id="gridStandard"></div>
+    </div>
+
+    <!-- ECONOMY seats -->
+    <div class="seat-section">
+      <div class="seat-section-title">Economy — ₹150</div>
+      <div class="seat-grid" id="gridEconomy"></div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-card">
+      <div class="section-title" style="margin-bottom:12px;">Booking Summary</div>
+      <div class="summary-row">
+        <span class="label">Selected Seats</span>
+        <span class="value" id="sumSeats">None</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Ticket Price</span>
+        <span class="value" id="sumPrice">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Convenience Fee</span>
+        <span class="value" id="sumFee">—</span>
+      </div>
+      <div class="summary-row total">
+        <span class="label">Total</span>
+        <span class="value" id="sumTotal">—</span>
+      </div>
+      <button class="btn btn-gold btn-full mt-16" id="btnConfirm" disabled>
+        Confirm Booking
+      </button>
+    </div>
+
+  </main>
+</div>
+
+<!-- Confirmation overlay -->
+<div class="overlay hidden" id="confirmOverlay">
+  <div class="confirm-card">
+    <div class="confirm-icon">🎟️</div>
+    <h2>Booking Confirmed!</h2>
+    <p id="confirmMsg">Your seats have been reserved. Enjoy the show!</p>
+    <div class="confirm-seats" id="confirmSeats"></div>
+    <button class="btn btn-gold btn-full" onclick="closeConfirm()">
+      Back to Home
+    </button>
+  </div>
+</div>
+
+<!-- Toast area -->
+<div class="toast-area" id="toastArea"></div>
+
+<script src="/ui/booking.js"></script>
+</body>
+</html>
