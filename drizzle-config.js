@@ -11,13 +11,23 @@ function normalizeConnectionString(connectionString) {
     return connectionString;
   }
 
-  if (/sslmode=/i.test(connectionString)) {
-    return connectionString;
+  const hasSslMode = /([?&])sslmode=/i.test(connectionString);
+  const hasLibpqCompat = /([?&])uselibpqcompat=/i.test(connectionString);
+
+  let normalized = connectionString;
+  if (!hasSslMode) {
+    normalized = normalized.includes("?")
+      ? `${normalized}&sslmode=require`
+      : `${normalized}?sslmode=require`;
   }
 
-  return connectionString.includes("?")
-    ? `${connectionString}&sslmode=require`
-    : `${connectionString}?sslmode=require`;
+  if (!hasLibpqCompat) {
+    normalized = normalized.includes("?")
+      ? `${normalized}&uselibpqcompat=true`
+      : `${normalized}?uselibpqcompat=true`;
+  }
+
+  return normalized;
 }
 
 const dbUrl = normalizeConnectionString(
