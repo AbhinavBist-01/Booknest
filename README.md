@@ -66,12 +66,14 @@ src/
 ## Database Schema
 
 Core tables:
+
 - `users`
 - `movies`
 - `shows`
 - `bookings`
 
 Legacy compatibility table:
+
 - `seats`
 
 ## Environment Variables
@@ -147,11 +149,26 @@ This project is configured for Vercel serverless deployment with:
 
 - `localhost`/Docker DB URLs do **not** work on Vercel.
 - Use a hosted database provider (Neon, Supabase, Railway, etc.).
+- If Supabase shows "Not IPv4 compatible", do not use the direct `db.<project-ref>.supabase.co` URL on Vercel.
+- Use Supabase Session Pooler connection string for deployment.
 - After setting cloud `DATABASE_URL`, run schema sync once against that DB:
 
 ```bash
 pnpm drizzle-kit push --config=drizzle-config.js
 ```
+
+### Supabase Session Pooler Example
+
+Use the Session Pooler values from Supabase dashboard and set `DATABASE_URL` in Vercel:
+
+```env
+DATABASE_URL=postgresql://postgres.<project-ref>:[YOUR-PASSWORD]@aws-<region>.pooler.supabase.com:5432/postgres?sslmode=require
+```
+
+Notes:
+
+- Use the exact host/user from your Session Pooler panel.
+- Keep `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` set in Vercel.
 
 ## API Endpoints
 
@@ -237,12 +254,14 @@ WHERE NOT EXISTS (SELECT 1 FROM seats);
 ## Frontend Demo (Optional)
 
 Available pages:
+
 - `/ui`
 - `/ui/signup.html`
 - `/ui/login.html`
 - `/ui/booking.html`
 
 Flow:
+
 1. Signup/Login
 2. Access token stored client-side
 3. Book seats and manage bookings via protected APIs
