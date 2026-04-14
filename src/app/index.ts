@@ -57,6 +57,15 @@ export function createExpressApp(): Express {
     }
   });
 
+  app.get("/health/env", (_req, res) => {
+    return res.status(200).json({
+      status: "ok",
+      jwt_access_secret: Boolean(process.env.JWT_ACCESS_SECRET),
+      jwt_refresh_secret: Boolean(process.env.JWT_REFRESH_SECRET),
+      database_url: Boolean(process.env.DATABASE_URL || process.env.POSTGRES_URL),
+    });
+  });
+
   // routers
   app.get("/", (_req, res) => {
     return res.redirect("/ui/signup.html");
